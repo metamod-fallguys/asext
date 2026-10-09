@@ -3,7 +3,7 @@
 You can register your own hooks or methods in Sven Co-op AngelScript engine.
 
 ```cpp
-// Include this header file : "metamod-fallguys\asext\include\asext_api.h"
+// The ASExt::SDK target provides include/asext_api.h.
 #include "asext_api.h"
 
 // Define this macro in meta_api.cpp
@@ -114,20 +114,20 @@ void RegisterAngelScriptMethods(void)
 
 ## Build Configuration (v20260208d)
 
-Starting from v20260208d, asext requires the `angelscript.h`. Add the following include directory to your CMake configuration:
+Starting from v20260208d, asext requires `angelscript.h`. Use the public SDK
+targets to consume the Metamod, ASExt and customized AngelScript headers:
 
 ```cmake
-include_directories(
-    ${CMAKE_SOURCE_DIR}/hlsdk/common
-    ${CMAKE_SOURCE_DIR}/hlsdk/dlls
-    ${CMAKE_SOURCE_DIR}/hlsdk/pm_shared
-    ${CMAKE_SOURCE_DIR}/hlsdk/engine
-    ${CMAKE_SOURCE_DIR}/metamod
-    ${CMAKE_SOURCE_DIR}/thirdparty/angelscript-sdk/angelscript/include # Mandatory for asext
-)
+include("${METAMOD_SOURCE_PATH}/cmake/SDK.cmake")
+include("${ASEXT_SOURCE_PATH}/cmake/SDK.cmake")
+target_link_libraries(MyPlugin PRIVATE ASExt::SDK)
 ```
 
-Alternatively, you can copy `/thirdparty/angelscript-sdk/angelscript/include/angelscript.h` into your project (not recommended).
+Set `METAMOD_SOURCE_PATH` and `ASEXT_SOURCE_PATH` to the corresponding local clones.
+`ANGELSCRIPT_SOURCE_PATH` optionally selects the customized SDK clone; otherwise it is
+fetched at the pinned revision. Existing plugins demonstrate automatic Metamod/ASExt
+FetchContent fallback in their `cmake/` bootstraps. SDK targets do not build either DLL/SO.
+Preserve the customized AngelScript header's Sven Co-op ABI fixes.
 
 ## Set default namespace in AngelScript
 
