@@ -1,53 +1,30 @@
-# asext project
-project(asext)
-
-# Define core source files
-set(ASEXT_SOURCES
-    dllapi.cpp
-    engine_api.cpp
-    h_export.cpp
-    meta_api.cpp
-    server_hook.cpp
-)
-
-# Windows-specific source files
-if(WIN32)
-    list(APPEND ASEXT_SOURCES dllmain.cpp)
+cmake_minimum_required(VERSION 3.21)
+option(FORMAT_VALIDATION_ONLY "Configure formatting without compilers or native dependencies" OFF)
+if(FORMAT_VALIDATION_ONLY)
+    project(FormatValidation LANGUAGES NONE)
+    include(cmake/FormatValidation.cmake)
+    return()
 endif()
-
-# Add include directories
-include_directories(
-    ${CMAKE_SOURCE_DIR}/asext/include
-    ${CMAKE_SOURCE_DIR}/thirdparty/angelscript-sdk/angelscript/include
-)
-
-# If Bullet3 is needed
-if(UNIX)
-    include_directories(${BULLET3_INCLUDE_DIR})
+include(cmake/Metamod.cmake)
+project(asext LANGUAGES C CXX)
+if(NOT CMAKE_CONFIGURATION_TYPES AND NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE Release CACHE STRING "Build configuration" FORCE)
 endif()
+include("${METAMOD_SOURCE_PATH}/cmake/SDK.cmake")
+include(cmake/SDK.cmake)
 
-# Create shared library
-add_library(asext SHARED ${ASEXT_SOURCES})
-
-# Set target properties
-set_target_properties(asext PROPERTIES
-    PREFIX ""
-    OUTPUT_NAME "asext"
+add_library(asext SHARED
+    src/dllapi.cpp
+    src/engine_api.cpp
+    src/h_export.cpp
+    src/meta_api.cpp
+    src/server_hook.cpp
 )
-
-# Windows-specific settings
+mmfg_configure_target(asext)
+target_link_libraries(asext PRIVATE ASExt::SDK)
 if(WIN32)
+    target_sources(asext PRIVATE src/dllmain.cpp)
     target_compile_definitions(asext PRIVATE ASEXT_EXPORTS)
 endif()
 
-# Link libraries
-if(UNIX)
-    target_link_libraries(asext
-        dl
-        m
-    )
-    # Statically link libgcc and libstdc++ for better compatibility
-    set_target_properties(metamod PROPERTIES
-        LINK_FLAGS "-static-libgcc -static-libstdc++"
-    )
-endif() 
+include(cmake/FormatValidation.cmake)
