@@ -27,5 +27,6 @@ if(WIN32)
     target_sources(asext PRIVATE src/dllmain.cpp)
     target_compile_definitions(asext PRIVATE ASEXT_EXPORTS)
 endif()
+mmfg_assign_source_groups(asext)
 
 include(cmake/FormatValidation.cmake)
