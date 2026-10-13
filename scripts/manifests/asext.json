@@ -1,0 +1,71 @@
+{
+    "schemaVersion": 1,
+    "name": "asext",
+    "gameVersions": [
+        "svencoop-8948",
+        "svencoop-10257"
+    ],
+    "platforms": [
+        "windows",
+        "linux"
+    ],
+    "symbols": {
+        "server": {
+            "CASHook_CASHook": "function",
+            "CASHook_Call": "function",
+            "CString::Assign(const char*, unsigned int)": "function",
+            "CString::~CString()": "function",
+            "asGetActiveContext": "function",
+            "CASDocumentation::RegisterObjectProperty(char const*, char const*, char const*, int)": "function",
+            "CASDocumentation::RegisterGlobalProperty(char const*, char const*, void*)": "function",
+            "CASDocumentation::RegisterFuncDef(char const*, char const*)": "function",
+            "CASDocumentation::RegisterEnum(char const*, char const*, CASDocumentation::ENUM_TYPE)": "function",
+            "CASDocumentation::RegisterEnumValue(char const*, char const*, char const*, int)": "function",
+            "CASDocumentation::SetDefaultNamespace(char const*)": "function",
+            "CASDirectoryList::CreateDirectory(char const*, unsigned char, unsigned char, unsigned char, unsigned char)": "function",
+            "CASFunction::Create(asIScriptFunction*, CASModule*, bool)": "function",
+            "CASBaseCallable::Call(int, ...)": "function",
+            "CASRefCountedBaseClass::InternalRelease() const": "function",
+            "CScriptAny::Release() const": "function",
+            "CScriptArray::Release() const": "function",
+            "CScriptBuilder::DefineWord(const char*)": "function",
+            "CScriptDictionary::Create(asIScriptEngine*)": "function",
+            "CScriptDictionary::AddRef() const": "function",
+            "CScriptDictionary::Release() const": "function",
+            "CScriptDictionary::Set(const CString&, void*, int)": "function",
+            "CScriptDictionary::Get(const CString&, void*, int) const": "function",
+            "CScriptDictionary::Exists(const CString&) const": "function",
+            "CScriptDictionary::IsEmpty() const": "function",
+            "CScriptDictionary::GetSize() const": "function",
+            "CScriptDictionary::Delete(const CString&)": "function",
+            "CScriptDictionary::DeleteAll()": "function",
+            "CScriptDictionary::begin() const": "function",
+            "CScriptDictionary::end() const": "function",
+            "CScriptDictionary::CIterator::GetKey() const": "function",
+            "CScriptDictionary::CIterator::operator!=(const CIterator&) const": "function",
+            "CScriptDictionary::CIterator::GetValue(void*, int) const": "function",
+            "CScriptDictionary::CIterator::operator++()": "function",
+            "CASServerManager::GetInstance()::pInstance": "global"
+        }
+    },
+    "platformSymbols": {
+        "windows": {
+            "server": {
+                "CASDocumentation::RegisterObjectType(char const*, char const*, int, unsigned int)": "function",
+                "CASDocumentation::RegisterGlobalFunction(char const*, char const*, asSFuncPtr const&, unsigned int, void*)": "function",
+                "CASDocumentation::RegisterObjectMethod(char const*, char const*, char const*, asSFuncPtr const&, unsigned int)": "function",
+                "CASDocumentation::RegisterObjectBehaviour(char const*, char const*, asEBehaviours, char const*, asSFuncPtr const&, unsigned int, void*)": "function",
+                "CASBaseManager::GetTypeInfoByName(std::string const&)": "function"
+            }
+        },
+        "linux": {
+            "server": {
+                "CASDocumentation::RegisterObjectType(char const*, char const*, int, unsigned long)": "function",
+                "CASDocumentation::RegisterGlobalFunction(char const*, char const*, asSFuncPtr const&, unsigned long, void*)": "function",
+                "CASDocumentation::RegisterObjectMethod(char const*, char const*, char const*, asSFuncPtr const&, unsigned long)": "function",
+                "CASDocumentation::RegisterObjectBehaviour(char const*, char const*, asEBehaviours, char const*, asSFuncPtr const&, unsigned long, void*)": "function",
+                "CASBaseManager::GetTypeInfoByName(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)": "function"
+            }
+        }
+    }
+}

@@ -36,7 +36,7 @@
 
 #include <cl_entity.h>
 #include <entity_state.h>
-#include "signatures.h"
+#include "gamesymbols.h"
 
 extern hook_t* g_phook_CASDocumentation_RegisterObjectType;
 extern hook_t* g_phook_CASDirectoryList_CreateDirectory;
