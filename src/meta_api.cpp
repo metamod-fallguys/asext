@@ -145,190 +145,51 @@ C_DLLEXPORT int Meta_Attach(PLUG_LOADTIME /* now */,
         return FALSE;
     }
 
-    auto serverSize     = gpMetaUtilFuncs->pfnGetImageSize(serverBase);
-    auto serverCodeBase = gpMetaUtilFuncs->pfnGetCodeBase(serverBase);
-    auto serverCodeSize = gpMetaUtilFuncs->pfnGetCodeSize(serverBase);
+    FILL_FROM_GAMEDATA(server, CASHook_CASHook);
+    FILL_FROM_GAMEDATA(server, CASHook_Call);
+    FILL_FROM_GAMEDATA(server, CString_Assign);
+    FILL_FROM_GAMEDATA(server, CString_dtor);
+    FILL_FROM_GAMEDATA(server, asGetActiveContext);
 
-    auto serverEnd     = (char*)serverBase + serverSize;
-    auto serverCodeEnd = (char*)serverCodeBase + serverCodeSize;
+    FILL_FROM_GAMEDATA(server, CASDocumentation_RegisterObjectType);
+    FILL_FROM_GAMEDATA(server, CASDocumentation_RegisterObjectProperty);
+    FILL_FROM_GAMEDATA(server, CASDocumentation_RegisterGlobalProperty);
+    FILL_FROM_GAMEDATA(server, CASDocumentation_RegisterGlobalFunction);
+    FILL_FROM_GAMEDATA(server, CASDocumentation_RegisterObjectMethod);
+    FILL_FROM_GAMEDATA(server, CASDocumentation_RegisterObjectBehaviour);
+    FILL_FROM_GAMEDATA(server, CASDocumentation_RegisterFuncDef);
+    FILL_FROM_GAMEDATA(server, CASDocumentation_RegisterEnum);
+    FILL_FROM_GAMEDATA(server, CASDocumentation_RegisterEnumValue);
+    FILL_FROM_GAMEDATA(server, CASDocumentation_SetDefaultNamespace);
+    FILL_FROM_GAMEDATA(server, CASBaseManager_GetTypeInfoByName);
+    FILL_FROM_GAMEDATA(server, CASDirectoryList_CreateDirectory);
+    FILL_FROM_GAMEDATA(server, CASFunction_Create);
+    FILL_FROM_GAMEDATA(server, CASBaseCallable_Call);
+    FILL_FROM_GAMEDATA(server, CASRefCountedBaseClass_InternalRelease);
+    FILL_FROM_GAMEDATA(server, CScriptAny_Release);
+    FILL_FROM_GAMEDATA(server, CScriptArray_Release);
 
-    LOG_MESSAGE(PLID, "Current server code range: %p ~ %p!", serverCodeBase, serverCodeEnd);
+    FILL_FROM_GAMEDATA(server, CScriptBuilder_DefineWord);
 
-    auto CreateInterface = (CreateInterfaceFn)gpMetaUtilFuncs->pfnGetProcAddress(serverHandle, "CreateInterface");
+    FILL_FROM_GAMEDATA(server, CScriptDictionary_Create);
+    FILL_FROM_GAMEDATA(server, CScriptDictionary_AddRef);
+    FILL_FROM_GAMEDATA(server, CScriptDictionary_Release);
+    FILL_FROM_GAMEDATA(server, CScriptDictionary_Set);
+    FILL_FROM_GAMEDATA(server, CScriptDictionary_Get);
+    FILL_FROM_GAMEDATA(server, CScriptDictionary_Exists);
+    FILL_FROM_GAMEDATA(server, CScriptDictionary_IsEmpty);
+    FILL_FROM_GAMEDATA(server, CScriptDictionary_GetSize);
+    FILL_FROM_GAMEDATA(server, CScriptDictionary_Delete);
+    FILL_FROM_GAMEDATA(server, CScriptDictionary_DeleteAll);
 
-    if (!CreateInterface)
-    {
-        LOG_ERROR(PLID, "CreateInterface not found!");
-        return FALSE;
-    }
+    FILL_FROM_GAMEDATA(server, CScriptDictionary_begin);
+    FILL_FROM_GAMEDATA(server, CScriptDictionary_end);
+    FILL_FROM_GAMEDATA(server, CScriptDictionary_CIterator_operator_NE);
+    FILL_FROM_GAMEDATA(server, CScriptDictionary_CIterator_GetValue);
+    FILL_FROM_GAMEDATA(server, CScriptDictionary_CIterator_GetKey);
+    FILL_FROM_GAMEDATA(server, CScriptDictionary_CIterator_operator_PP);
 
-#ifdef _WIN32
-
-    FILL_FROM_SIGNATURE(server, CASHook_CASHook);
-    FILL_FROM_SIGNATURE(server, CASHook_Call);
-    FILL_FROM_SIGNATURE(server, CString_Assign);
-    FILL_FROM_SIGNATURE(server, CString_dtor);
-
-    FILL_FROM_SIGNATURE(server, asGetActiveContext);
-
-    FILL_FROM_SIGNATURED_CALLER_FROM_END(server, CASDocumentation_RegisterObjectType, -1);
-    FILL_FROM_SIGNATURED_CALLER_FROM_END(server, CASDocumentation_RegisterObjectProperty, -7);
-    FILL_FROM_SIGNATURED_CALLER_FROM_END(server, CASDocumentation_RegisterGlobalProperty, -15);
-    FILL_FROM_SIGNATURE(server, CASDocumentation_RegisterGlobalFunction);
-    FILL_FROM_SIGNATURED_CALLER_FROM_END(server, CASDocumentation_RegisterObjectMethod, -7);
-    FILL_FROM_SIGNATURED_CALLER_FROM_END(server, CASDocumentation_RegisterObjectBehaviour, -8);
-    FILL_FROM_SIGNATURED_CALLER_FROM_START(server, CASDocumentation_RegisterFuncDef, 0);
-    FILL_FROM_SIGNATURED_CALLER_FROM_END(server, CASDocumentation_RegisterEnum, -7);
-    FILL_FROM_SIGNATURED_CALLER_FROM_END(server, CASDocumentation_RegisterEnumValue, -7);
-    FILL_FROM_SIGNATURE(server, CASDocumentation_SetDefaultNamespace);
-    FILL_FROM_SIGNATURE(server, CASBaseManager_GetTypeInfoByName);
-    FILL_FROM_SIGNATURED_CALLER_FROM_END(server, CASDirectoryList_CreateDirectory, -1);
-    FILL_FROM_SIGNATURED_CALLER_FROM_END(server, CASFunction_Create, -1);
-    FILL_FROM_SIGNATURED_CALLER_FROM_END(server, CASBaseCallable_Call, -1);
-    FILL_FROM_SIGNATURED_CALLER_FROM_END(server, CASRefCountedBaseClass_InternalRelease, -7);
-    FILL_FROM_SIGNATURED_CALLER_FROM_START(server, CScriptAny_Release, 7);
-    FILL_FROM_SIGNATURED_CALLER_FROM_START(server, CScriptArray_Release, 0);
-
-    FILL_FROM_SIGNATURED_CALLER_FROM_START(server, CScriptBuilder_DefineWord, 8);
-
-    FILL_FROM_SIGNATURED_CALLER_FROM_START(server, CScriptDictionary_Create, 3);
-    FILL_FROM_SIGNATURED_CALLER_FROM_START(server, CScriptDictionary_AddRef, 6);
-    FILL_FROM_SIGNATURED_CALLER_FROM_START(server, CScriptDictionary_Release, 10);
-    FILL_FROM_SIGNATURE(server, CScriptDictionary_Set);
-    FILL_FROM_SIGNATURE(server, CScriptDictionary_Get);
-    FILL_FROM_SIGNATURE(server, CScriptDictionary_Exists);
-    if (g_pfn_CScriptDictionary_Exists)
-    {
-        FILL_FROM_SIGNATURE_FROM_FUNCTION(server, CScriptDictionary_IsEmpty, g_pfn_CScriptDictionary_Exists, 0x100);
-        FILL_FROM_SIGNATURE_FROM_FUNCTION(server, CScriptDictionary_GetSize, g_pfn_CScriptDictionary_Exists, 0x100);
-    }
-    FILL_FROM_SIGNATURE(server, CScriptDictionary_Delete);
-    FILL_FROM_SIGNATURE(server, CScriptDictionary_DeleteAll);
-
-    // CScriptDictionary iterator functions: located from CASEntityFuncs::InitializeEntity
-    FILL_FROM_SIGNATURED_CALLER_FROM_END(server, CScriptDictionary_begin, -1);
-    FILL_FROM_SIGNATURED_CALLER_FROM_START(server, CScriptDictionary_end, 6);
-    FILL_FROM_SIGNATURED_CALLER_FROM_START(server, CScriptDictionary_CIterator_operator_NE, 4);
-    FILL_FROM_SIGNATURED_CALLER_FROM_START(server, CScriptDictionary_CIterator_GetValue, 10);
-    FILL_FROM_SIGNATURED_CALLER_FROM_START(server, CScriptDictionary_CIterator_GetKey, 7);
-    FILL_FROM_SIGNATURED_CALLER_FROM_END(server, CScriptDictionary_CIterator_operator_PP, -1);
-
-    VAR_FROM_SIGNATURE_FROM_START(server, g_pServerManager, 5);
-
-#else
-    //Sven Co-op 5.16 rc1 and rc2 (10152 and 10182)
-    if (CreateInterface("SCServerDLL003", nullptr) != nullptr)
-    {
-        LOG_MESSAGE(PLID, "SCServerDLL003 found! Using signatures for Sven Co-op 5.16");
-
-        FILL_FROM_SIGNATURED_CALLER_FROM_END(server, CASHook_CASHook, -1);
-        FILL_FROM_SIGNATURE(server, CASHook_Call);
-        FILL_FROM_SIGNATURED_CALLER_FROM_END(server, CString_Assign, -1);
-        FILL_FROM_SIGNATURE(server, CString_dtor);
-        FILL_FROM_SIGNATURE(server, asGetActiveContext);
-        FILL_FROM_SIGNATURED_CALLER_FROM_END(server, CASDocumentation_RegisterObjectType, -1);
-        FILL_FROM_SIGNATURED_CALLER_FROM_START(server, CASDocumentation_RegisterObjectProperty, 0);
-        FILL_FROM_SIGNATURED_CALLER_FROM_START(server, CASDocumentation_RegisterGlobalProperty, 9);
-        FILL_FROM_SIGNATURE(server, CASDocumentation_RegisterGlobalFunction);
-        FILL_FROM_SIGNATURED_CALLER_FROM_START(server, CASDocumentation_RegisterObjectMethod, 0);
-        FILL_FROM_SIGNATURED_CALLER_FROM_END(server, CASDocumentation_RegisterObjectBehaviour, -1);
-        FILL_FROM_SIGNATURED_CALLER_FROM_START(server, CASDocumentation_RegisterFuncDef, 0);
-        FILL_FROM_SIGNATURED_CALLER_FROM_END(server, CASDocumentation_RegisterEnum, -13);
-        FILL_FROM_SIGNATURED_CALLER_FROM_START(server, CASDocumentation_RegisterEnumValue, 7);
-        FILL_FROM_SIGNATURE(server, CASDocumentation_SetDefaultNamespace);
-        FILL_FROM_SIGNATURE(server, CASBaseManager_GetTypeInfoByName);
-        FILL_FROM_SIGNATURED_CALLER_FROM_START(server, CASDirectoryList_CreateDirectory, 0);
-        FILL_FROM_SIGNATURED_CALLER_FROM_START(server, CASFunction_Create, 0);
-        FILL_FROM_SIGNATURED_CALLER_FROM_END(server, CASBaseCallable_Call, -8);
-        FILL_FROM_SIGNATURED_CALLER_FROM_START(server, CASRefCountedBaseClass_InternalRelease, 3);
-        FILL_FROM_SIGNATURED_CALLER_FROM_START(server, CScriptAny_Release, 0);
-        FILL_FROM_SIGNATURED_CALLER_FROM_END(server, CScriptArray_Release, -8);
-        FILL_FROM_SIGNATURED_CALLER_FROM_END(server, CScriptBuilder_DefineWord, -1);
-        FILL_FROM_SIGNATURED_CALLER_FROM_START(server, CScriptDictionary_Create, 8);
-        FILL_FROM_SIGNATURED_CALLER_FROM_START(server, CScriptDictionary_AddRef, 13);
-        FILL_FROM_SIGNATURE(server, CScriptDictionary_Release);
-        FILL_FROM_SIGNATURED_CALLER_FROM_END(server, CScriptDictionary_Set, -1);
-        FILL_FROM_SIGNATURE(server, CScriptDictionary_Get);
-        FILL_FROM_SIGNATURE(server, CScriptDictionary_Exists);
-        FILL_FROM_SIGNATURE(server, CScriptDictionary_IsEmpty);
-        FILL_FROM_SIGNATURE(server, CScriptDictionary_GetSize);
-        FILL_FROM_SIGNATURE(server, CScriptDictionary_Delete);
-        FILL_FROM_SIGNATURE(server, CScriptDictionary_DeleteAll);
-
-        // CScriptDictionary iterator functions: located from CASEntityFuncs::InitializeEntity
-        FILL_FROM_SIGNATURED_CALLER_FROM_END(server, CScriptDictionary_begin, -1);
-        FILL_FROM_SIGNATURED_CALLER_FROM_END(server, CScriptDictionary_end, -1);
-        FILL_FROM_SIGNATURED_CALLER_FROM_END(server, CScriptDictionary_CIterator_operator_NE, -1);
-        FILL_FROM_SIGNATURED_CALLER_FROM_END(server, CScriptDictionary_CIterator_GetValue, -1);
-        FILL_FROM_SIGNATURED_CALLER_FROM_END(server, CScriptDictionary_CIterator_GetKey, -1);
-        FILL_FROM_SIGNATURED_CALLER_FROM_END(server, CScriptDictionary_CIterator_operator_PP, -1);
-
-        char pattern_CASHook_VCall[] = "\x83\xEC\x2A\xE8\x2A\x2A\x2A\x2A\x81\x2A\x2A\x2A\x2A\x2A\x8B\x2A\x24\x2A\x8B\x2A\x2A\x2A\x2A\x00\x85\x2A\x74\x2A\x0F\x2A\x2A\x06";
-        auto CASHook_VCall           = (char*)LOCATE_FROM_SIGNATURE(server, pattern_CASHook_VCall);
-        if (!CASHook_VCall)
-        {
-            LOG_ERROR(PLID, "CHook_VCall not found!");
-            return FALSE;
-        }
-
-        //__x86_get_pc_thunk_
-        auto pic_chunk_call = CASHook_VCall + 3;
-        //auto pic_chunk = gpMetaUtilFuncs->pfnGetNextCallAddr(pic_chunk_call, 1);
-        auto add_addr = pic_chunk_call + 5;
-        auto got_plt  = add_addr + *(int*)(add_addr + 2);
-
-        LOG_MESSAGE(PLID, "got_plt found at %p!", got_plt);
-
-        auto mov_ebp_addr = CASHook_VCall + 18;
-        g_pServerManager  = (decltype(g_pServerManager))(got_plt + *(int*)(mov_ebp_addr + 2));
-    }
-    else
-    {
-        LOG_MESSAGE(PLID, "SCServerDLL003 not found! Using symbols for Sven Co-op 5.15");
-
-        FILL_FROM_SYMBOL(server, CASHook_CASHook);
-        FILL_FROM_SYMBOL(server, CASHook_Call);
-        FILL_FROM_SYMBOL(server, CString_Assign);
-        FILL_FROM_SYMBOL(server, CString_dtor);
-        FILL_FROM_SYMBOL(server, CASDocumentation_RegisterObjectType);
-        FILL_FROM_SYMBOL(server, CASDocumentation_RegisterObjectProperty);
-        FILL_FROM_SYMBOL(server, CASDocumentation_RegisterGlobalProperty);
-        FILL_FROM_SYMBOL(server, CASDocumentation_RegisterGlobalFunction);
-        FILL_FROM_SYMBOL(server, CASDocumentation_RegisterObjectMethod);
-        FILL_FROM_SYMBOL(server, CASDocumentation_RegisterObjectBehaviour);
-        FILL_FROM_SYMBOL(server, CASDocumentation_RegisterFuncDef);
-        FILL_FROM_SYMBOL(server, CASDocumentation_RegisterEnum);
-        FILL_FROM_SYMBOL(server, CASDocumentation_RegisterEnumValue);
-        FILL_FROM_SYMBOL(server, CASDocumentation_SetDefaultNamespace);
-        FILL_FROM_SYMBOL(server, CASBaseManager_GetTypeInfoByName);
-        FILL_FROM_SYMBOL(server, CASDirectoryList_CreateDirectory);
-        FILL_FROM_SYMBOL(server, CASFunction_Create);
-        FILL_FROM_SYMBOL(server, CASBaseCallable_Call);
-        FILL_FROM_SYMBOL(server, CASRefCountedBaseClass_InternalRelease);
-        FILL_FROM_SYMBOL(server, CScriptAny_Release);
-        FILL_FROM_SYMBOL(server, CScriptArray_Release);
-        FILL_FROM_SYMBOL(server, CScriptBuilder_DefineWord);
-        FILL_FROM_SYMBOL(server, CScriptDictionary_Create);
-        FILL_FROM_SYMBOL(server, CScriptDictionary_AddRef);
-        FILL_FROM_SYMBOL(server, CScriptDictionary_Release);
-        FILL_FROM_SYMBOL(server, CScriptDictionary_Set);
-        FILL_FROM_SYMBOL(server, CScriptDictionary_Get);
-        FILL_FROM_SYMBOL(server, CScriptDictionary_Exists);
-        FILL_FROM_SYMBOL(server, CScriptDictionary_IsEmpty);
-        FILL_FROM_SYMBOL(server, CScriptDictionary_GetSize);
-        FILL_FROM_SYMBOL(server, CScriptDictionary_Delete);
-        FILL_FROM_SYMBOL(server, CScriptDictionary_DeleteAll);
-        FILL_FROM_SYMBOL(server, CScriptDictionary_begin);
-        FILL_FROM_SYMBOL(server, CScriptDictionary_end);
-        FILL_FROM_SYMBOL(server, CScriptDictionary_CIterator_GetKey);
-        FILL_FROM_SYMBOL(server, CScriptDictionary_CIterator_operator_NE);
-        FILL_FROM_SYMBOL(server, CScriptDictionary_CIterator_GetValue);
-        FILL_FROM_SYMBOL(server, CScriptDictionary_CIterator_operator_PP);
-
-        VAR_FROM_SYMBOL(server, g_pServerManager);
-    }
-
-#endif
+    VAR_FROM_GAMEDATA(server, g_pServerManager);
 
     ASEXT_CallHook = (fnASEXT_CallHook)g_call_original_CASHook_Call;
 
